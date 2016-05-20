@@ -78,12 +78,14 @@ function mapStateToProps(state) {
         id: game.home_team_id,
         flag: 'home',
         name: game.home_team_name,
+        abbrev: game.home_name_abbrev,
         score: game.linescore.r.home
       },
       awayTeam: {
         id: game.away_team_id,
         flag: 'away',
         name: game.away_team_name,
+        abbrev: game.away_name_abbrev,
         score: game.linescore.r.away
       },
       status: game.status.status,

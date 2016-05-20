@@ -45,7 +45,8 @@ class DetailView extends Component {
       <div>
         {isLoading ? <h2>Loading...</h2> :
           <div>
-            <LineScore lineScore={lineScore} />
+            <LineScore game={game} lineScore={lineScore} />
+
             <Batters batters={batters} />
           </div>}
       </div>
@@ -93,7 +94,14 @@ function mapStateToProps(state) {
 
     const batters = batterData.map((batter) => {
       return {
-        name: batter.name_display_first_last
+        name: batter.name, //name_display_first_last
+        ab: batter.ab,
+        r: batter.r,
+        h: batter.h,
+        rbi: batter.rbi,
+        bb: batter.bb,
+        so: batter.so,
+        avg: batter.avg
       }
     })
 
