@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { fetchBoxScore, selectTeam } from '../actions/boxscore'
+import { fetchBoxScore, selectTeam } from '../actions/box_score'
 import InningLineScore from '../components/InningLineScore'
-import Batting from '../components/Batting'
+import Batters from '../components/Batters'
 
 class DetailView extends Component {
   constructor(props) {
@@ -12,8 +12,9 @@ class DetailView extends Component {
 
   componentDidMount() {
     const { dispatch, game } = this.props
-    // select default team here from `game`
-    dispatch(fetchBoxscore(game))
+    // select home team as default selected team
+    dispatch(selectTeam(game.homeTeam))
+    dispatch(fetchBoxScore(game))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,8 +24,8 @@ class DetailView extends Component {
     }
   }
 
-  handleChange(nextTeamId) {
-    this.props.dispatch(selectTeam(nextTeamId))
+  handleChange(nextTeam) {
+    this.props.dispatch(selectTeam(nextTeam))
   }
 
   render() {
@@ -32,51 +33,74 @@ class DetailView extends Component {
       game,
       selectedTeamId,
       inningLineScore,
-      batting,
+      batters,
       isFetching,
       lastUpdated
     } = this.props;
 
     return (
       <div>
-        {isFetching ? 'Loading...' :
-          <InningLineScore inningLineScore={inningLineScore} />
-          <Batting batting={batting} />}
+        {isFetching ? <h2>Loading...</h2> :
+          <div>
+            <InningLineScore inningLineScore={inningLineScore} />
+            <Batters batters={batters} />
+          </div>}
       </div>
     )
   }
 }
 
-App.propTypes = {
+DetailView.propTypes = {
   game: PropTypes.object.isRequired,
-  selectedTeamId: PropTypes.number,
+  selectedTeamId: PropTypes.string,
   inningLineScore: PropTypes.array.isRequired,
-  batting: PropTypes.array.isRequired,
+  batters: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
+  const { boxScore, selectedTeam } = state
+
   const {
-    game,
-    boxScore,
-    selectedTeamId,
     isFetching,
     lastUpdated
-  } = state
+  } = boxScore || {
+    isFetching: true
+  }
 
-  const teamBoxScore = boxScore[selectedTeamId]
-  const inningLineScore = teamBoxScore.inning_line_score
-  const batting = teamBoxScore.batting
-
-  return {
-    game,
-    selectedTeamId,
-    inningLineScore,
-    batting,
+  const result = {
+    selectedTeam,
+    inningLineScore: [],
+    batters: [],
     isFetching,
     lastUpdated
+  }
+
+  if (selectedTeam && !isFetching) {
+    const batterData = ((teams) => {
+      for (var i = 0; i < teams.length; ++i) {
+        if (teams[i].team_flag === selectedTeam.flag) {
+          return teams[i].batter;
+        }
+      }
+    })(boxScore.data.batting);
+
+    const batters = batterData.map((batter) => {
+      return {
+        name: batter.name_display_first_last
+      }
+    })
+
+    console.log(batters);
+
+    return Object.assign(result, {
+      batters,
+      inningLineScore: boxScore.data.linescore.inning_line_score
+    })
+  } else {
+    return result;
   }
 }
 

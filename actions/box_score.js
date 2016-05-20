@@ -4,10 +4,10 @@ export const SELECT_TEAM = 'SELECT_TEAM'
 export const REQUEST_BOX_SCORE = 'REQUEST_BOX_SCORE'
 export const RECEIVE_BOX_SCORE = 'RECEIVE_BOX_SCORE'
 
-export function selectTeam(teamId) {
+export function selectTeam(team) {
   return {
     type: SELECT_TEAM,
-    teamId
+    team
   }
 }
 
@@ -22,7 +22,7 @@ function receiveBoxScore(game, json) {
   return {
     type: RECEIVE_BOX_SCORE,
     game,
-    boxScore: json.boxscore,
+    boxScore: json.data.boxscore,
     receivedAt: Date.now()
   }
 }
@@ -30,7 +30,7 @@ function receiveBoxScore(game, json) {
 export function fetchBoxScore(game) {
   return dispatch => {
     dispatch(requestBoxScore(game))
-    return fetch(`${game.game_data_directory}/boxscore.json`)
+    return fetch(`http://gd2.mlb.com${game.gameDataDirectory}/boxscore.json`)
       .then(response => response.json())
       .then(json => dispatch(receiveBoxScore(game, json)));
   }

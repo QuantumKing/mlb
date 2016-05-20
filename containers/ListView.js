@@ -53,8 +53,8 @@ class ListView extends Component {
   }
 }
 
-App.propTypes = {
-  selectedDate: PropTypes.date.isRequired,
+ListView.propTypes = {
+  selectedDate: PropTypes.object.isRequired,
   games: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
@@ -72,19 +72,22 @@ function mapStateToProps(state) {
     data: []
   }
 
-  const games = masterScoreboard.map(game => {
+  const games = data.map(game => {
     return {
       homeTeam: {
         id: game.home_team_id,
+        flag: 'home',
         name: game.home_team_name,
         score: game.linescore.r.home
       },
       awayTeam: {
         id: game.away_team_id,
+        flag: 'away',
         name: game.away_team_name,
         score: game.linescore.r.away
       },
-      status: game.status.status
+      status: game.status.status,
+      gameDataDirectory: game.game_data_directory
     }
   })
 

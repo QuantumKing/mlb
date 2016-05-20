@@ -5,7 +5,7 @@ export default class Batters extends Component {
     return (
       <ul>
         {this.props.batters.map((batter, i) =>
-          <li key={i}>{post.title}</li>
+          <li key={i}>{batter.name}</li>
         )}
       </ul>
     )

@@ -19,4 +19,12 @@ App.propTypes = {
   selectedGame: PropTypes.object
 }
 
-export default connect()(App)
+function mapStateToProps(state) {
+  const { selectedGame } = state
+
+  return {
+    selectedGame
+  }
+}
+
+export default connect(mapStateToProps)(App)

@@ -1,12 +1,12 @@
 import {
   REQUEST_BOX_SCORE, RECEIVE_BOX_SCORE,
   SELECT_TEAM
-} from '../actions/boxscore'
+} from '../actions/box_score'
 
-export function selectedTeamId(state = null, action) {
+export function selectedTeam(state = null, action) {
   switch (action.type) {
     case SELECT_TEAM:
-      return action.teamId
+      return action.team
     default:
       return state
   }

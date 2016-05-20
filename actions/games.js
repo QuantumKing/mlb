@@ -48,7 +48,7 @@ export function fetchGames(date) {
     dispatch(requestGames(date))
     const day = `0${date.getDate()}`.slice(-2)
     const month = `0${date.getMonth()}`.slice(-2)
-    const year = date.getFullyear()
+    const year = date.getFullYear()
     return fetch(`http://gd2.mlb.com/components/game/mlb/year_${year}/month_${month}/day_${day}/master_scoreboard.json`)
       .then(response => response.json())
       .then(json => dispatch(receiveGames(date, json)))
