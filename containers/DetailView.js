@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchBoxScore, selectTeam } from '../actions/box_score'
-import InningLineScore from '../components/InningLineScore'
+import LineScore from '../components/LineScore'
 import Batters from '../components/Batters'
 
 class DetailView extends Component {
@@ -12,9 +12,9 @@ class DetailView extends Component {
 
   componentDidMount() {
     const { dispatch, game } = this.props
+    dispatch(fetchBoxScore(game))
     // select home team as default selected team
     dispatch(selectTeam(game.homeTeam))
-    dispatch(fetchBoxScore(game))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,18 +31,21 @@ class DetailView extends Component {
   render() {
     const {
       game,
-      selectedTeamId,
-      inningLineScore,
+      selectedTeam,
+      lineScore,
       batters,
       isFetching,
+      isLoaded,
       lastUpdated
     } = this.props;
 
+    const isLoading = isFetching || !isLoaded;
+
     return (
       <div>
-        {isFetching ? <h2>Loading...</h2> :
+        {isLoading ? <h2>Loading...</h2> :
           <div>
-            <InningLineScore inningLineScore={inningLineScore} />
+            <LineScore lineScore={lineScore} />
             <Batters batters={batters} />
           </div>}
       </div>
@@ -53,9 +56,10 @@ class DetailView extends Component {
 DetailView.propTypes = {
   game: PropTypes.object.isRequired,
   selectedTeamId: PropTypes.string,
-  inningLineScore: PropTypes.array.isRequired,
+  lineScore: PropTypes.object.isRequired,
   batters: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  isLoaded: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
   dispatch: PropTypes.func.isRequired
 }
@@ -65,20 +69,20 @@ function mapStateToProps(state) {
 
   const {
     isFetching,
+    isLoaded,
     lastUpdated
-  } = boxScore || {
-    isFetching: true
-  }
+  } = boxScore
 
   const result = {
     selectedTeam,
-    inningLineScore: [],
+    lineScore: {},
     batters: [],
     isFetching,
+    isLoaded,
     lastUpdated
   }
 
-  if (selectedTeam && !isFetching) {
+  if (selectedTeam && isLoaded) {
     const batterData = ((teams) => {
       for (var i = 0; i < teams.length; ++i) {
         if (teams[i].team_flag === selectedTeam.flag) {
@@ -93,11 +97,32 @@ function mapStateToProps(state) {
       }
     })
 
-    console.log(batters);
+    const lineScore = {
+      errors: {
+        home: boxScore.data.linescore.home_team_errors,
+        away: boxScore.data.linescore.away_team_errors
+      },
+      hits: {
+        home: boxScore.data.linescore.home_team_hits,
+        away: boxScore.data.linescore.away_team_hits
+      },
+      runs: {
+        home: boxScore.data.linescore.home_team_runs,
+        away: boxScore.data.linescore.away_team_runs
+      },
+      innings: []
+    }
+
+    boxScore.data.linescore.inning_line_score.forEach(score => {
+      lineScore.innings[score.inning] = {
+        home: score.home,
+        away: score.away
+      }
+    })
 
     return Object.assign(result, {
       batters,
-      inningLineScore: boxScore.data.linescore.inning_line_score
+      lineScore
     })
   } else {
     return result;
