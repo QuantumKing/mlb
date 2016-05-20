@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux'
 import { masterScoreboard, selectedDate, selectedGame } from './games'
-import { boxScore, selectedTeam } from './box_score';
+import { boxScore, selectedTeam } from './details';
 
 const rootReducer = combineReducers({
   masterScoreboard,
   selectedDate,
-  selectedGame,
-  boxScore,
-  selectedTeam
+  details: combineReducers({
+    selectedGame,
+    boxScore,
+    selectedTeam
+  })
 })
 
 export default rootReducer

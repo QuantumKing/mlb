@@ -3,11 +3,19 @@ import fetch from 'isomorphic-fetch'
 export const SELECT_TEAM = 'SELECT_TEAM'
 export const REQUEST_BOX_SCORE = 'REQUEST_BOX_SCORE'
 export const RECEIVE_BOX_SCORE = 'RECEIVE_BOX_SCORE'
+export const NAVIGATE_BACK = 'NAVIGATE_BACK'
 
 export function selectTeam(team) {
   return {
     type: SELECT_TEAM,
     team
+  }
+}
+
+export function navigateBack() {
+  return {
+    type: NAVIGATE_BACK,
+    updatedAt: Date.now()
   }
 }
 
@@ -28,10 +36,15 @@ function receiveBoxScore(game, json) {
 }
 
 export function fetchBoxScore(game) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(requestBoxScore(game))
     return fetch(`http://gd2.mlb.com${game.gameDataDirectory}/boxscore.json`)
       .then(response => response.json())
-      .then(json => dispatch(receiveBoxScore(game, json)));
+      .then(json => {
+        if (getState().details.boxScore.isFetching) {
+          // In case user navigates back before request finishes
+          dispatch(receiveBoxScore(game, json))
+        }
+      });
   }
 }

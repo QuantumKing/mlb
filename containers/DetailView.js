@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { fetchBoxScore, selectTeam } from '../actions/box_score'
+import { fetchBoxScore, selectTeam, navigateBack } from '../actions/details'
 import LineScore from '../components/LineScore'
 import Batters from '../components/Batters'
 import TeamTabBar from '../components/TeamTabBar'
@@ -8,7 +8,8 @@ import TeamTabBar from '../components/TeamTabBar'
 class DetailView extends Component {
   constructor(props) {
     super(props)
-    this.handleChange = this.handleChange.bind(this)
+    this.handleTeamChange = this.handleTeamChange.bind(this)
+    this.handleNavigateBack = this.handleNavigateBack.bind(this)
   }
 
   componentDidMount() {
@@ -25,10 +26,14 @@ class DetailView extends Component {
     }
   }
 
-  handleChange(nextTeam) {
+  handleTeamChange(nextTeam) {
     if (nextTeam !== this.props.selectedTeam) {
       this.props.dispatch(selectTeam(nextTeam))
     }
+  }
+
+  handleNavigateBack() {
+    this.props.dispatch(navigateBack())
   }
 
   render() {
@@ -44,19 +49,18 @@ class DetailView extends Component {
 
     const isLoading = isFetching || !isLoaded
 
-//console.log(selectedTeam);
-
-    //const teams =
+    const backStyle = {cursor: 'pointer', marginBottom: '5px'}
 
     return (
       <div>
+        <div onClick={this.handleNavigateBack} style={backStyle}>&lt;&nbsp;Back</div>
         {isLoading ? <h2>Loading...</h2> :
           <div>
             <LineScore game={game} lineScore={lineScore} />
             <TeamTabBar
               defaultTeam={selectedTeam}
               teams={[game.homeTeam, game.awayTeam]}
-              onChange={this.handleChange}/>
+              onChange={this.handleTeamChange}/>
             <Batters batters={batters} />
           </div>}
       </div>
@@ -76,7 +80,7 @@ DetailView.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { boxScore, selectedTeam } = state
+  const { boxScore, selectedTeam } = state.details
 
   const {
     isFetching,

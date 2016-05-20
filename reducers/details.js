@@ -1,7 +1,8 @@
 import {
+  NAVIGATE_BACK,
   REQUEST_BOX_SCORE, RECEIVE_BOX_SCORE,
   SELECT_TEAM
-} from '../actions/box_score'
+} from '../actions/details'
 
 export function selectedTeam(state = null, action) {
   switch (action.type) {
@@ -30,6 +31,13 @@ export function boxScore(state = {
         isLoaded: true,
         data: action.boxScore,
         lastUpdated: action.receivedAt
+      })
+    case NAVIGATE_BACK:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isLoaded: false,
+        data: {},
+        lastUpdated: action.updatedAt
       })
     default:
       return state

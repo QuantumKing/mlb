@@ -3,6 +3,7 @@ import {
   REQUEST_GAMES, RECEIVE_GAMES,
   SELECT_GAME
 } from '../actions/games'
+import { NAVIGATE_BACK } from '../actions/details'
 
 function yesterday() {
   var tmp = new Date();
@@ -22,6 +23,7 @@ export function selectedDate(state = yesterday(), action) {
 
 export function masterScoreboard(state = {
   isFetching: false,
+  isLoaded: false,
   data: []
 }, action) {
   switch (action.type) {
@@ -32,6 +34,7 @@ export function masterScoreboard(state = {
     case RECEIVE_GAMES:
       return Object.assign({}, state, {
         isFetching: false,
+        isLoaded: true,
         data: action.masterScoreboard,
         lastUpdated: action.receivedAt
       })
@@ -44,6 +47,8 @@ export function selectedGame(state = null, action) {
   switch (action.type) {
     case SELECT_GAME:
       return action.game
+    case NAVIGATE_BACK:
+      return null
     default:
       return state
   }

@@ -20,13 +20,6 @@ export function selectDate(date) {
   }
 }
 
-export function invalidateDate(date) {
-  return {
-    type: INVALIDATE_DATE,
-    date
-  }
-}
-
 function requestGames(date) {
   return {
     type: REQUEST_GAMES,

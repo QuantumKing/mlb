@@ -2,16 +2,24 @@ import React, { PropTypes, Component } from 'react'
 
 export default class Games extends Component {
   render() {
+    const rowStyle = {
+      padding: '10px 5px',
+      borderTop: '1px solid black',
+      cursor: 'pointer'
+    }
+
     return (
-      <ul>
+      <div>
         {this.props.games.map((game, i) =>
-          <li key={i} onClick={() => this.props.onSelectGame(game)}>
+          <div key={i}
+               onClick={() => this.props.onSelectGame(game)}
+               style={rowStyle}>
             <div>{game.homeTeam.name}</div>
             <div>{game.awayTeam.name}</div>
             <div>{game.status}</div>
-          </li>
+          </div>
         )}
-      </ul>
+      </div>
     )
   }
 }

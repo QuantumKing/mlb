@@ -10,7 +10,7 @@ export default class TeamTabBar extends Component {
 
     const tabStyle = {
       display: 'inline-block',
-      margin: '0 15px 0 0',
+      margin: '0 25px 0 0',
       cursor: 'pointer'
     }
 
@@ -28,7 +28,7 @@ export default class TeamTabBar extends Component {
     //const teams =
 
     return (
-      <div>
+      <div style={{margin: '20px 0', fontSize: '1.2em'}}>
         <div style={homeTeamTabStyle} onClick={() => onChange(teams[0])}>
           {teams[0].name}
         </div>

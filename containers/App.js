@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     const { selectedGame } = this.props
     return (
-      <div>
+      <div style={{maxWidth: '400px'}}>
         {selectedGame ? <DetailView game={selectedGame} /> : <ListView />}
       </div>
     )
@@ -19,7 +19,7 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { selectedGame } = state
+  const { selectedGame } = state.details
 
   return {
     selectedGame

@@ -17,8 +17,10 @@ class ListView extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, selectedDate } = this.props
-    dispatch(fetchGames(selectedDate))
+    if (!this.props.isLoaded) {
+      const { dispatch, selectedDate } = this.props
+      dispatch(fetchGames(selectedDate))
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,13 +39,14 @@ class ListView extends Component {
   }
 
   render() {
-    const { selectedDate, games, isFetching, lastUpdated } = this.props
+    const { selectedDate, games, isFetching, isLoaded, lastUpdated } = this.props
     const isEmpty = games.length === 0
+    const isLoading = isFetching || !isLoaded
     return (
       <div>
         <DatePicker value={selectedDate} onChange={this.onSelectDate} />
         {isEmpty
-          ? (isFetching ? <h2>Loading...</h2> : <h2>No games today.</h2>)
+          ? (isLoading ? <h2>Loading...</h2> : <h2>No games today.</h2>)
           : <div style={{ opacity: isFetching ? 0.5 : 1 }}>
               <Games games={games} onSelectGame={this.onSelectGame} />
             </div>
@@ -57,20 +60,20 @@ ListView.propTypes = {
   selectedDate: PropTypes.object.isRequired,
   games: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  isLoaded: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   const { selectedDate, masterScoreboard } = state
+
   const {
     isFetching,
+    isLoaded,
     lastUpdated,
     data
-  } = masterScoreboard || {
-    isFetching: true,
-    data: []
-  }
+  } = masterScoreboard
 
   const games = data.map(game => {
     return {
@@ -97,6 +100,7 @@ function mapStateToProps(state) {
     selectedDate,
     games,
     isFetching,
+    isLoaded,
     lastUpdated
   }
 }
