@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchBoxScore, selectTeam } from '../actions/box_score'
 import LineScore from '../components/LineScore'
 import Batters from '../components/Batters'
+import TeamTabBar from '../components/TeamTabBar'
 
 class DetailView extends Component {
   constructor(props) {
@@ -25,7 +26,9 @@ class DetailView extends Component {
   }
 
   handleChange(nextTeam) {
-    this.props.dispatch(selectTeam(nextTeam))
+    if (nextTeam !== this.props.selectedTeam) {
+      this.props.dispatch(selectTeam(nextTeam))
+    }
   }
 
   render() {
@@ -39,14 +42,21 @@ class DetailView extends Component {
       lastUpdated
     } = this.props;
 
-    const isLoading = isFetching || !isLoaded;
+    const isLoading = isFetching || !isLoaded
+
+//console.log(selectedTeam);
+
+    //const teams =
 
     return (
       <div>
         {isLoading ? <h2>Loading...</h2> :
           <div>
             <LineScore game={game} lineScore={lineScore} />
-
+            <TeamTabBar
+              defaultTeam={selectedTeam}
+              teams={[game.homeTeam, game.awayTeam]}
+              onChange={this.handleChange}/>
             <Batters batters={batters} />
           </div>}
       </div>

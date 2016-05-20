@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { selectGame } from '../actions'
 import ListView from '../containers/ListView'
 import DetailView from '../containers/DetailView'
 

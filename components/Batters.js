@@ -6,7 +6,7 @@ export default class Batters extends Component {
     const columnStyle = {display: 'inline-block', margin: '5px'}
     return (
       <div>
-        <div style={{display: 'inline-block', margin: '0 15px 0 0'}}>
+        <div style={Object.assign({}, columnStyle, {margin: '0 15px 0 0'})}>
           <div style={{fontWeight: 'bold'}}>Name</div>
           {batters.map((batter, i) =>
             <div key={i}>{batter.name}</div>
