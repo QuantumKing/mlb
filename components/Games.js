@@ -5,7 +5,11 @@ export default class Games extends Component {
     return (
       <ul>
         {this.props.games.map((game, i) =>
-          <li key={i}>{post.title}</li>
+          <li key={i}>
+            <div>{game.homeTeam.name}</div>
+            <div>{game.awayTeam.name}</div>
+            <div>{game.status}</div>
+          </li>
         )}
       </ul>
     )

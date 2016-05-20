@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
-import { gamesByDate, selectedDate, selectedGame } from './games'
+import { masterScoreboard, selectedDate, selectedGame } from './games'
 import { boxScore, selectedTeamId } from './box_score';
 
 const rootReducer = combineReducers({
-  gamesByDate,
+  masterScoreboard,
   selectedDate,
   selectedGame,
   boxScore,

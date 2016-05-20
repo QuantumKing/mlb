@@ -14,7 +14,7 @@ export function selectedTeamId(state = null, action) {
 
 export function boxScore(state = {
   isFetching: false,
-  boxScore: {}
+  data: {}
 }, action) {
   switch (action.type) {
     case REQUEST_BOX_SCORE:
@@ -24,7 +24,7 @@ export function boxScore(state = {
     case RECEIVE_BOX_SCORE:
       return Object.assign({}, state, {
         isFetching: false,
-        boxScore: action.boxScore,
+        data: action.boxScore,
         lastUpdated: action.receivedAt
       })
     default:

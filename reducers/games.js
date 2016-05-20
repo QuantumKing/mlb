@@ -1,5 +1,5 @@
 import {
-  SELECT_DATE, INVALIDATE_DATE,
+  SELECT_DATE,
   REQUEST_GAMES, RECEIVE_GAMES,
   SELECT_GAME
 } from '../actions/games'
@@ -20,40 +20,20 @@ export function selectedDate(state = yesterday(), action) {
   }
 }
 
-function games(state = {
+export function masterScoreboard(state = {
   isFetching: false,
-  didInvalidate: false,
-  items: []
+  data: []
 }, action) {
   switch (action.type) {
-    case INVALIDATE_DATE:
-      return Object.assign({}, state, {
-        didInvalidate: true
-      })
     case REQUEST_GAMES:
       return Object.assign({}, state, {
-        isFetching: true,
-        didInvalidate: false
+        isFetching: true
       })
     case RECEIVE_GAMES:
       return Object.assign({}, state, {
         isFetching: false,
-        didInvalidate: false,
-        items: action.games,
+        data: action.masterScoreboard,
         lastUpdated: action.receivedAt
-      })
-    default:
-      return state
-  }
-}
-
-export function gamesByDate(state = {}, action) {
-  switch (action.type) {
-    case INVALIDATE_DATE:
-    case RECEIVE_GAMES:
-    case REQUEST_GAMES:
-      return Object.assign({}, state, {
-        [action.date]: games(state[action.date], action)
       })
     default:
       return state

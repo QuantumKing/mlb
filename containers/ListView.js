@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import {
   selectDate,
-  fetchGamesIfNeeded,
+  fetchGames,
   invalidateDate,
   selectGame
 } from '../actions/games'
@@ -18,13 +18,13 @@ class ListView extends Component {
 
   componentDidMount() {
     const { dispatch, selectedDate } = this.props
-    dispatch(fetchGamesIfNeeded(selectedDate))
+    dispatch(fetchGames(selectedDate))
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.selectedDate !== this.props.selectedDate) {
       const { dispatch, selectedDate } = nextProps
-      dispatch(fetchGamesIfNeeded(selectedDate))
+      dispatch(fetchGames(selectedDate))
     }
   }
 
@@ -62,15 +62,31 @@ App.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { selectedDate, gamesByDate } = state
+  const { selectedDate, masterScoreboard } = state
   const {
     isFetching,
     lastUpdated,
-    items: games
-  } = gamesByDate[selectedDate] || {
+    data
+  } = masterScoreboard || {
     isFetching: true,
-    items: []
+    data: []
   }
+
+  const games = masterScoreboard.map(game => {
+    return {
+      homeTeam: {
+        id: game.home_team_id,
+        name: game.home_team_name,
+        score: game.linescore.r.home
+      },
+      awayTeam: {
+        id: game.away_team_id,
+        name: game.away_team_name,
+        score: game.linescore.r.away
+      },
+      status: game.status.status
+    }
+  })
 
   return {
     selectedDate,

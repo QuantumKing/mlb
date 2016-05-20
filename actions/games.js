@@ -38,35 +38,19 @@ function receiveGames(date, json) {
   return {
     type: RECEIVE_GAMES,
     date,
-    games: json.data.children.map(child => child.data),
+    masterScoreboard: json.data.games.game,
     receivedAt: Date.now()
   }
 }
 
-function fetchGames(date) {
+export function fetchGames(date) {
   return dispatch => {
     dispatch(requestGames(date))
-    return fetch(`https://www.reddit.com/r/${date}.json`)
+    const day = `0${date.getDate()}`.slice(-2)
+    const month = `0${date.getMonth()}`.slice(-2)
+    const year = date.getFullyear()
+    return fetch(`http://gd2.mlb.com/components/game/mlb/year_${year}/month_${month}/day_${day}/master_scoreboard.json`)
       .then(response => response.json())
       .then(json => dispatch(receiveGames(date, json)))
-  }
-}
-
-function shouldFetchGames(state, date) {
-  const games = state.gamesByDate[reddit]
-  if (!games) {
-    return true
-  }
-  if (games.isFetching) {
-    return false
-  }
-  return games.didInvalidate
-}
-
-export function fetchGamesIfNeeded(date) {
-  return (dispatch, getState) => {
-    if (shouldFetchGames(getState(), date)) {
-      return dispatch(fetchGames(date))
-    }
   }
 }
