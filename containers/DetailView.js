@@ -59,7 +59,7 @@ class DetailView extends Component {
       <div style={{padding: '10px', display: 'inline-block', textAlign: 'left'}}>
         <div onClick={this.handleNavigateBack} style={backStyle}>&lt;&nbsp;Back</div>
         {networkError ? <ErrorDisplay error={networkError} /> : (isLoading ? <Loader /> :
-          <div>
+          <div style={{textAlign: 'center'}}>
             <LineScore game={game} lineScore={lineScore} />
             <TeamTabBar
               defaultTeam={selectedTeam}

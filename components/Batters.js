@@ -6,7 +6,7 @@ export default class Batters extends Component {
     const thStyle = {textAlign: 'left', padding: '0px 10px'}
     const tdStyle = {padding: '5px 10px 0 10px'}
     return (
-      <table style={{marginLeft: '-10px'}}>
+      <table style={{marginLeft: '-10px', display: 'inline-block', textAlign: 'left'}}>
         <thead>
           <tr>
             <th style={thStyle}>Name</th>

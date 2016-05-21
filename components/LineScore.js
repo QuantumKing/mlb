@@ -6,7 +6,7 @@ export default class LineScore extends Component {
     const thStyle = {textAlign: 'left', padding: '0px 8px'}
     const tdStyle = {padding: '5px 8px 0 8px'}
     return (
-      <table style={{marginLeft: '-8px'}}>
+      <table style={{marginLeft: '-8px', display: 'inline-block', textAlign: 'left'}}>
         <thead>
           <tr>
             <th style={thStyle}>&nbsp;</th>
