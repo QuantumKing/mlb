@@ -10,7 +10,6 @@ export default class TeamTabBar extends Component {
 
     const tabStyle = {
       display: 'inline-block',
-      margin: '0 25px 0 0',
       cursor: 'pointer'
     }
 
@@ -20,15 +19,17 @@ export default class TeamTabBar extends Component {
       cursor: 'auto'
     })
 
-    const homeTeamTabStyle = defaultTeam.flag === 'home' ? selectedTabStyle : tabStyle
-    const awayTeamTabStyle = defaultTeam.flag === 'away' ? selectedTabStyle : tabStyle
+    const team0TabStyle = defaultTeam.flag === 'home' ? selectedTabStyle : tabStyle
+    const team1TabStyle = defaultTeam.flag === 'away' ? selectedTabStyle : tabStyle
 
     return (
-      <div style={{margin: '20px 0', fontSize: '1.2em'}}>
-        <div style={homeTeamTabStyle} onClick={() => onChange(teams[0])}>
+      <div style={{margin: '20px 0', fontSize: '1.2em', textAlign: 'center'}}>
+        <div style={team0TabStyle} onClick={() => onChange(teams[0])}>
           {teams[0].name}
         </div>
-        <div style={awayTeamTabStyle} onClick={() => onChange(teams[1])}>
+        <div
+          style={Object.assign({}, team1TabStyle, {marginLeft: '40px'})}
+          onClick={() => onChange(teams[1])}>
           {teams[1].name}
         </div>
       </div>

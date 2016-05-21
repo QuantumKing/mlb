@@ -3,11 +3,13 @@ import { connect } from 'react-redux'
 import {
   selectDate,
   fetchGames,
-  invalidateDate,
   selectGame
 } from '../actions/games'
 import DatePicker from '../components/DatePicker'
 import Games from '../components/Games'
+import Loader from '../components/Loader'
+import EmptyList from '../components/EmptyList'
+import ErrorDisplay from '../components/ErrorDisplay'
 
 class ListView extends Component {
   constructor(props) {
@@ -24,7 +26,7 @@ class ListView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedDate !== this.props.selectedDate) {
+    if (nextProps.selectedDate.getTime() !== this.props.selectedDate.getTime()) {
       const { dispatch, selectedDate } = nextProps
       dispatch(fetchGames(selectedDate))
     }
@@ -39,18 +41,25 @@ class ListView extends Component {
   }
 
   render() {
-    const { selectedDate, games, isFetching, isLoaded, lastUpdated } = this.props
+    const {
+      selectedDate,
+      games,
+      isFetching,
+      isLoaded,
+      networkError,
+      lastUpdated
+    } = this.props
     const isEmpty = games.length === 0
     const isLoading = isFetching || !isLoaded
     return (
-      <div>
+      <div style={{textAlign: 'left'}}>
         <DatePicker value={selectedDate} onChange={this.onSelectDate} />
-        {isEmpty
-          ? (isLoading ? <h2>Loading...</h2> : <h2>No games today.</h2>)
-          : <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-              <Games games={games} onSelectGame={this.onSelectGame} />
-            </div>
-        }
+        {networkError ? <ErrorDisplay error={networkError} /> : (isEmpty ?
+          (isLoading ? <Loader /> : <EmptyList />) :
+          <div style={{ opacity: isFetching ? 0.5 : 1 }}>
+            <Games games={games} onSelectGame={this.onSelectGame} />
+          </div>
+        )}
       </div>
     )
   }
@@ -66,7 +75,7 @@ ListView.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { selectedDate, masterScoreboard } = state
+  const { selectedDate, masterScoreboard, networkError } = state
 
   const {
     isFetching,
@@ -102,6 +111,7 @@ function mapStateToProps(state) {
     games,
     isFetching,
     isLoaded,
+    networkError,
     lastUpdated
   }
 }

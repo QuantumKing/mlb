@@ -32,7 +32,11 @@ export default class DatePicker extends Component {
   render() {
     const { value, onChange } = this.props
 
-    const segmentStyle = {display: 'inline-block', margin: '0px 5px', cursor: 'pointer'}
+    const segmentStyle = {
+      display: 'inline-block',
+      margin: '0px 5px',
+      cursor: 'pointer'
+    }
 
     return (
       <h3 style={{textAlign: 'center'}}>

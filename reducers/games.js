@@ -32,10 +32,11 @@ export function masterScoreboard(state = {
         isFetching: true
       })
     case RECEIVE_GAMES:
+      var games = action.games || []
       return Object.assign({}, state, {
         isFetching: false,
         isLoaded: true,
-        data: action.masterScoreboard,
+        data: action.games,
         lastUpdated: action.receivedAt
       })
     default:

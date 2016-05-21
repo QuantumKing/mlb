@@ -4,6 +4,7 @@ import { fetchBoxScore, selectTeam, navigateBack } from '../actions/details'
 import LineScore from '../components/LineScore'
 import Batters from '../components/Batters'
 import TeamTabBar from '../components/TeamTabBar'
+import Loader from '../components/Loader'
 
 class DetailView extends Component {
   constructor(props) {
@@ -52,9 +53,9 @@ class DetailView extends Component {
     const backStyle = {cursor: 'pointer', marginBottom: '5px'}
 
     return (
-      <div>
+      <div style={{padding: '10px', display: 'inline-block', textAlign: 'left'}}>
         <div onClick={this.handleNavigateBack} style={backStyle}>&lt;&nbsp;Back</div>
-        {isLoading ? <h2>Loading...</h2> :
+        {isLoading ? <Loader /> :
           <div>
             <LineScore game={game} lineScore={lineScore} />
             <TeamTabBar

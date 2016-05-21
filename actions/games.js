@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import { catchError } from './error'
 
 export const REQUEST_GAMES = 'REQUEST_GAMES'
 export const RECEIVE_GAMES = 'RECEIVE_GAMES'
@@ -27,11 +28,21 @@ function requestGames(date) {
   }
 }
 
+function makeArray(object) {
+  if (!object) {
+    return []
+  } else if (!Array.isArray(object)) {
+    return [object]
+  } else {
+    return object
+  }
+}
+
 function receiveGames(date, json) {
   return {
     type: RECEIVE_GAMES,
     date,
-    masterScoreboard: json.data.games.game,
+    games: makeArray(json.data.games.game),
     receivedAt: Date.now()
   }
 }
@@ -44,6 +55,9 @@ export function fetchGames(date) {
     const year = date.getFullYear()
     return fetch(`http://gd2.mlb.com/components/game/mlb/year_${year}/month_${month}/day_${day}/master_scoreboard.json`)
       .then(response => response.json())
-      .then(json => dispatch(receiveGames(date, json)))
+      .then(
+        json => dispatch(receiveGames(date, json)),
+        error => dispatch(catchError(error))
+      )
   }
 }

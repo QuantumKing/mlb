@@ -6,8 +6,19 @@ import DetailView from '../containers/DetailView'
 class App extends Component {
   render() {
     const { selectedGame } = this.props
+
+    const appStyle = {
+      background: '#f8f8f8',
+      border: '1px solid #eee',
+      textAlign: 'center',
+      padding: '0px 10px',
+      display: 'inline-block',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
+      borderRadius: '2px'
+    }
+
     return (
-      <div style={{maxWidth: '400px'}}>
+      <div style={appStyle}>
         {selectedGame ? <DetailView game={selectedGame} /> : <ListView />}
       </div>
     )
