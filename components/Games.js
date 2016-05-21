@@ -10,7 +10,7 @@ export default class Games extends Component {
 
     const teamStyle = (team, otherTeam) => {
       return {
-        fontWeight: (team.score > otherTeam.score) ? 'bold' : 'normal'
+        fontWeight: (parseInt(team.score) > parseInt(otherTeam.score)) ? 'bold' : 'normal'
       }
     }
 
