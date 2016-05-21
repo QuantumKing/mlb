@@ -8,8 +8,7 @@ class App extends Component {
     const { selectedGame } = this.props
 
     const appStyle = {
-      background: '#f8f8f8',
-      border: '1px solid #eee',
+      background: '#ffffff',
       textAlign: 'center',
       padding: '0px 10px',
       display: 'inline-block',
