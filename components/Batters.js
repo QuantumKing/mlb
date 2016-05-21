@@ -2,7 +2,6 @@ import React, { PropTypes, Component } from 'react'
 
 export default class Batters extends Component {
   render() {
-    const { batters } = this.props
     const thStyle = {textAlign: 'left', padding: '0px 10px'}
     const tdStyle = {padding: '5px 10px 0 10px'}
     return (
