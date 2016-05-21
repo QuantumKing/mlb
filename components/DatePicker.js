@@ -42,7 +42,7 @@ export default class DatePicker extends Component {
         <span style={segmentStyle}>
           <ReactDatePicker className='react-datepicker-input'
             selected={moment(this.props.value)}
-            dateFormat='LL'
+            dateFormat='ddd MMM Do, YYYY'
             maxDate={moment()}
             onChange={momentDate => this.handleDateChange(momentDate.toDate())} />
         </span>

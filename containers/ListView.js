@@ -12,6 +12,13 @@ import Loader from '../components/Loader'
 import EmptyList from '../components/EmptyList'
 import ErrorDisplay from '../components/ErrorDisplay'
 
+const preferredTeamOptions = [
+  'TOR',
+  'BOS',
+  'BAL',
+  'CWS'
+]
+
 class ListView extends Component {
   constructor(props) {
     super(props)
@@ -70,10 +77,9 @@ class ListView extends Component {
         <div style={{textAlign: 'center', marginBottom: '10px'}}>
           <span>Favorite team:&nbsp;</span>
           <select onChange={this.onChangePreferredTeam} value={selectedPreferredTeam}>
-            <option>TOR</option>
-            <option>BOS</option>
-            <option>BAL</option>
-            <option>CWS</option>
+            {preferredTeamOptions.map(option =>
+              <option key={option} value={option}>{option}</option>
+            )}
           </select>
         </div>
         {networkError ? <ErrorDisplay error={networkError} /> : (isEmpty ?
