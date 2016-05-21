@@ -30,8 +30,6 @@ export default class DatePicker extends Component {
   }
 
   render() {
-    const { value, onChange } = this.props
-
     const segmentStyle = {
       display: 'inline-block',
       margin: '0px 5px',
@@ -43,7 +41,7 @@ export default class DatePicker extends Component {
         <span style={segmentStyle} onClick={this.previousDate}>&lt;</span>
         <span style={segmentStyle}>
           <ReactDatePicker className='react-datepicker-input'
-            selected={moment(value)}
+            selected={moment(this.props.value)}
             dateFormat='LL'
             maxDate={moment()}
             onChange={momentDate => this.handleDateChange(momentDate.toDate())} />

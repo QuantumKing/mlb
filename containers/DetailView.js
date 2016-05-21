@@ -108,7 +108,7 @@ function mapStateToProps(state) {
     const batterData = ((teams) => {
       for (var i = 0; i < teams.length; ++i) {
         if (teams[i].team_flag === selectedTeam.flag) {
-          return teams[i].batter;
+          return makeArray(teams[i].batter);
         }
       }
     })(boxScore.data.batting);
