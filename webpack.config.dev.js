@@ -1,9 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
 
-var env = process.env.NODE_ENV
-
-var config = {
+module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
@@ -16,8 +14,11 @@ var config = {
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env)
+      'process.env': {
+        'NODE_ENV': JSON.stringify('development')
+      }
     })
   ],
   module: {
@@ -35,22 +36,3 @@ var config = {
     ]
   }
 }
-
-if (env === 'production') {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false
-      }
-    })
-  )
-} else {
-  config.plugins.push(
-    new webpack.HotModuleReplacementPlugin()
-  )
-}
-
-module.exports = config

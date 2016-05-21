@@ -4,7 +4,8 @@
   "description": "MLB Super App, React + Redux",
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "NODE_ENV=production ./node_modules/.bin/webpack --config ./webpack.config.prod.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",

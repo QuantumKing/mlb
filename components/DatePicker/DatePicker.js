@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import ReactDatePicker from 'react-datepicker';
+import ReactDatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import moment from 'moment';
+import './date-picker.css'
+import moment from 'moment'
 
 export default class DatePicker extends Component {
   constructor(props) {
