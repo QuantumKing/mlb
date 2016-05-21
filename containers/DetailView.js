@@ -26,6 +26,7 @@ class DetailView extends Component {
     if (nextProps.game !== this.props.game) {
       const { dispatch, game } = nextProps
       dispatch(fetchBoxScore(game))
+      dispatch(selectTeam(game.homeTeam))
     }
   }
 
@@ -49,7 +50,7 @@ class DetailView extends Component {
       isLoaded,
       networkError,
       lastUpdated
-    } = this.props;
+    } = this.props
 
     const isLoading = isFetching || !isLoaded
 
