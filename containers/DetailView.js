@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchBoxScore, selectTeam, navigateBack } from '../actions/details'
+import { makeArray } from '../utils'
 import LineScore from '../components/LineScore'
 import Batters from '../components/Batters'
 import TeamTabBar from '../components/TeamTabBar'
 import Loader from '../components/Loader'
+import ErrorDisplay from '../components/ErrorDisplay'
 
 class DetailView extends Component {
   constructor(props) {
@@ -45,6 +47,7 @@ class DetailView extends Component {
       batters,
       isFetching,
       isLoaded,
+      networkError,
       lastUpdated
     } = this.props;
 
@@ -55,7 +58,7 @@ class DetailView extends Component {
     return (
       <div style={{padding: '10px', display: 'inline-block', textAlign: 'left'}}>
         <div onClick={this.handleNavigateBack} style={backStyle}>&lt;&nbsp;Back</div>
-        {isLoading ? <Loader /> :
+        {networkError ? <ErrorDisplay error={networkError} /> : (isLoading ? <Loader /> :
           <div>
             <LineScore game={game} lineScore={lineScore} />
             <TeamTabBar
@@ -63,7 +66,8 @@ class DetailView extends Component {
               teams={[game.homeTeam, game.awayTeam]}
               onChange={this.handleTeamChange}/>
             <Batters batters={batters} />
-          </div>}
+          </div>)
+        }
       </div>
     )
   }
@@ -81,6 +85,7 @@ DetailView.propTypes = {
 }
 
 function mapStateToProps(state) {
+  const { networkError } = state
   const { boxScore, selectedTeam } = state.details
 
   const {
@@ -95,6 +100,7 @@ function mapStateToProps(state) {
     batters: [],
     isFetching,
     isLoaded,
+    networkError,
     lastUpdated
   }
 
@@ -136,7 +142,7 @@ function mapStateToProps(state) {
       innings: []
     }
 
-    boxScore.data.linescore.inning_line_score.forEach(score => {
+    makeArray(boxScore.data.linescore.inning_line_score).forEach(score => {
       lineScore.innings[score.inning] = {
         home: score.home,
         away: score.away

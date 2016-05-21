@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {
   selectDate,
   fetchGames,
+  selectPreferredTeam,
   selectGame
 } from '../actions/games'
 import DatePicker from '../components/DatePicker'
@@ -16,6 +17,7 @@ class ListView extends Component {
     super(props)
     this.onSelectDate = this.onSelectDate.bind(this)
     this.onSelectGame = this.onSelectGame.bind(this)
+    this.onChangePreferredTeam = this.onChangePreferredTeam.bind(this)
   }
 
   componentDidMount() {
@@ -40,26 +42,46 @@ class ListView extends Component {
     this.props.dispatch(selectGame(nextGame))
   }
 
+  onChangePreferredTeam(e) {
+    const teamAbbr = e.target.value
+    if (teamAbbr !== this.props.selectPreferredTeam) {
+      this.props.dispatch(selectPreferredTeam(teamAbbr))
+    }
+  }
+
   render() {
     const {
       selectedDate,
+      selectedPreferredTeam,
       games,
       isFetching,
       isLoaded,
       networkError,
       lastUpdated
     } = this.props
+
     const isEmpty = games.length === 0
+
     const isLoading = isFetching || !isLoaded
+
     return (
       <div style={{textAlign: 'left'}}>
         <DatePicker value={selectedDate} onChange={this.onSelectDate} />
+        <div style={{textAlign: 'center', marginBottom: '10px'}}>
+          <span>Favorite team:&nbsp;</span>
+          <select onChange={this.onChangePreferredTeam} value={selectedPreferredTeam}>
+            <option>TOR</option>
+            <option>BOS</option>
+            <option>BAL</option>
+            <option>CWS</option>
+          </select>
+        </div>
         {networkError ? <ErrorDisplay error={networkError} /> : (isEmpty ?
           (isLoading ? <Loader /> : <EmptyList />) :
           <div style={{ opacity: isFetching ? 0.5 : 1 }}>
             <Games games={games} onSelectGame={this.onSelectGame} />
-          </div>
-        )}
+          </div>)
+        }
       </div>
     )
   }
@@ -67,6 +89,7 @@ class ListView extends Component {
 
 ListView.propTypes = {
   selectedDate: PropTypes.object.isRequired,
+  selectedPreferredTeam: PropTypes.string.isRequired,
   games: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isLoaded: PropTypes.bool.isRequired,
@@ -75,7 +98,12 @@ ListView.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { selectedDate, masterScoreboard, networkError } = state
+  const {
+    selectedDate,
+    selectedPreferredTeam,
+    masterScoreboard,
+    networkError
+  } = state
 
   const {
     isFetching,
@@ -84,30 +112,44 @@ function mapStateToProps(state) {
     data
   } = masterScoreboard
 
-  const games = data.map(game => {
-    const scores = game.linescore ? game.linescore.r : {}
-    return {
+  const preferredGames = []
+  const otherGames = []
+
+  // Games with the preferred team should rise to the top
+  data.forEach(gameData => {
+    const scores = gameData.linescore ? gameData.linescore.r : {}
+
+    const game = {
       homeTeam: {
-        id: game.home_team_id,
+        id: gameData.home_team_id,
         flag: 'home',
-        name: game.home_team_name,
-        abbrev: game.home_name_abbrev,
+        name: gameData.home_team_name,
+        abbrev: gameData.home_name_abbrev,
         score: scores.home
       },
       awayTeam: {
-        id: game.away_team_id,
+        id: gameData.away_team_id,
         flag: 'away',
-        name: game.away_team_name,
-        abbrev: game.away_name_abbrev,
+        name: gameData.away_team_name,
+        abbrev: gameData.away_name_abbrev,
         score: scores.away
       },
-      status: game.status.status,
-      gameDataDirectory: game.game_data_directory
+      status: gameData.status.status,
+      gameDataDirectory: gameData.game_data_directory
+    }
+
+    if (game.homeTeam.abbrev === selectedPreferredTeam || game.awayTeam.abbrev === selectedPreferredTeam) {
+      preferredGames.push(game)
+    } else {
+      otherGames.push(game)
     }
   })
 
+  const games = preferredGames.concat(otherGames)
+
   return {
     selectedDate,
+    selectedPreferredTeam,
     games,
     isFetching,
     isLoaded,

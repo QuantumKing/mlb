@@ -4,7 +4,7 @@ export default class Games extends Component {
   render() {
     const rowStyle = {
       padding: '10px 5px',
-      borderTop: '1px solid black',
+      borderTop: '1px solid #888888',
       cursor: 'pointer'
     }
 
@@ -31,7 +31,7 @@ export default class Games extends Component {
                   <td style={{textAlign: 'right'}}>{game.awayTeam.score}</td>
                 </tr>
                 <tr>
-                  <td>{game.status}</td>
+                  <td style={{fontStyle: 'italic'}}>{game.status}</td>
                   <td>&nbsp;</td>
                 </tr>
               </tbody>

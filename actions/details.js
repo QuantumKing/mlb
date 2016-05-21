@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import { catchError } from './error'
 
 export const SELECT_TEAM = 'SELECT_TEAM'
 export const REQUEST_BOX_SCORE = 'REQUEST_BOX_SCORE'
@@ -44,6 +45,10 @@ export function fetchBoxScore(game) {
         if (getState().details.boxScore.isFetching) {
           // In case user navigates back before request finishes
           dispatch(receiveBoxScore(game, json))
+        }
+      }, error => {
+        if (getState().details.boxScore.isFetching) {
+          dispatch(catchError(error))
         }
       });
   }

@@ -10,15 +10,11 @@ export default class LineScore extends Component {
         <thead>
           <tr>
             <th style={thStyle}>&nbsp;</th>
-            <th style={thStyle}>1</th>
-            <th style={thStyle}>2</th>
-            <th style={thStyle}>3</th>
-            <th style={thStyle}>4</th>
-            <th style={thStyle}>5</th>
-            <th style={thStyle}>6</th>
-            <th style={thStyle}>7</th>
-            <th style={thStyle}>8</th>
-            <th style={thStyle}>9</th>
+            {lineScore.innings.map((score, i) =>
+              <th key={i} style={thStyle}>
+                {i}
+              </th>
+            )}
             <th style={thStyle}>&nbsp;</th>
             <th style={thStyle}>R</th>
             <th style={thStyle}>H</th>

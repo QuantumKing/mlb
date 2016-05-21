@@ -1,7 +1,8 @@
 import {
   SELECT_DATE,
   REQUEST_GAMES, RECEIVE_GAMES,
-  SELECT_GAME
+  SELECT_GAME,
+  SELECT_PREFERRED_TEAM
 } from '../actions/games'
 import { NAVIGATE_BACK } from '../actions/details'
 
@@ -50,6 +51,15 @@ export function selectedGame(state = null, action) {
       return action.game
     case NAVIGATE_BACK:
       return null
+    default:
+      return state
+  }
+}
+
+export function selectedPreferredTeam(state = 'TOR', action) {
+  switch (action.type) {
+    case SELECT_PREFERRED_TEAM:
+      return action.teamAbbr
     default:
       return state
   }
