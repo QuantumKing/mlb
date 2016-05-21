@@ -76,20 +76,21 @@ function mapStateToProps(state) {
   } = masterScoreboard
 
   const games = data.map(game => {
+    const scores = game.linescore ? game.linescore.r : {}
     return {
       homeTeam: {
         id: game.home_team_id,
         flag: 'home',
         name: game.home_team_name,
         abbrev: game.home_name_abbrev,
-        score: game.linescore.r.home
+        score: scores.home
       },
       awayTeam: {
         id: game.away_team_id,
         flag: 'away',
         name: game.away_team_name,
         abbrev: game.away_name_abbrev,
-        score: game.linescore.r.away
+        score: scores.away
       },
       status: game.status.status,
       gameDataDirectory: game.game_data_directory

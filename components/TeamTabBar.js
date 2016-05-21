@@ -20,12 +20,8 @@ export default class TeamTabBar extends Component {
       cursor: 'auto'
     })
 
-//console.log(selectedTeam);
-
     const homeTeamTabStyle = defaultTeam.flag === 'home' ? selectedTabStyle : tabStyle
     const awayTeamTabStyle = defaultTeam.flag === 'away' ? selectedTabStyle : tabStyle
-
-    //const teams =
 
     return (
       <div style={{margin: '20px 0', fontSize: '1.2em'}}>
