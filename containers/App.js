@@ -11,10 +11,9 @@ class App extends Component {
       background: '#222222',
       color: '#888888',
       textAlign: 'center',
-      padding: '0px 10px 5px 10px',
+      padding: '0px 10px',
       display: 'inline-block',
       border: '1px solid #282828',
-//      boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
       borderRadius: '2px'
     }
 

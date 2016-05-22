@@ -1,14 +1,8 @@
 import React, { PropTypes, Component } from 'react'
+import './games.css'
 
 export default class Games extends Component {
   render() {
-    const rowStyle = {
-      padding: '10px 5px',
-      borderTop: '1px solid #282828',
-      //borderTop: '1px solid #888888',
-      cursor: 'pointer'
-    }
-
     const teamStyle = (team, otherTeam) => {
       const winner = parseInt(team.score) > parseInt(otherTeam.score)
       return {
@@ -22,7 +16,7 @@ export default class Games extends Component {
         {this.props.games.map((game, i) =>
           <div key={i}
                onClick={() => this.props.onSelectGame(game)}
-               style={rowStyle}>
+               className='game-row'>
             <table style={{width: '100%'}}>
               <tbody>
                 <tr style={teamStyle(game.homeTeam, game.awayTeam)}>
