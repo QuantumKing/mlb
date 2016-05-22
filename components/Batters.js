@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react'
 
 export default class Batters extends Component {
   render() {
-    const thStyle = {textAlign: 'left', padding: '0px 10px'}
+    const thStyle = {textAlign: 'left', padding: '0px 10px', color: '#ffffff'}
     const tdStyle = {padding: '5px 10px 0 10px'}
     return (
       <table style={{marginLeft: '-10px', display: 'inline-block', textAlign: 'left'}}>

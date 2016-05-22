@@ -3,7 +3,7 @@ import React, { PropTypes, Component } from 'react'
 export default class LineScore extends Component {
   render() {
     const { game, lineScore } = this.props;
-    const thStyle = {textAlign: 'left', padding: '0px 8px'}
+    const thStyle = {textAlign: 'left', padding: '0px 8px', color: '#ffffff'}
     const tdStyle = {padding: '5px 8px 0 8px'}
     return (
       <table style={{marginLeft: '-8px', display: 'inline-block', textAlign: 'left'}}>

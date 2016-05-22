@@ -75,8 +75,10 @@ class ListView extends Component {
       <div style={{textAlign: 'left'}}>
         <DatePicker value={selectedDate} onChange={this.onSelectDate} />
         <div style={{textAlign: 'center', marginBottom: '10px'}}>
-          <span>Favorite team:&nbsp;</span>
-          <select onChange={this.onChangePreferredTeam} value={selectedPreferredTeam}>
+          <span style={{color: '#ffffff'}}>Favorite team:&nbsp;</span>
+          <select onChange={this.onChangePreferredTeam}
+                  value={selectedPreferredTeam}
+                  style={{color: '#ffffff', background: 'none', outline: 'none'}}>
             {preferredTeamOptions.map(option =>
               <option key={option} value={option}>{option}</option>
             )}

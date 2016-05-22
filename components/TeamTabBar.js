@@ -10,7 +10,8 @@ export default class TeamTabBar extends Component {
 
     const tabStyle = {
       display: 'inline-block',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      color: '#ffffff'
     }
 
     const selectedTabStyle = Object.assign({}, tabStyle, {

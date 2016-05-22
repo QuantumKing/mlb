@@ -4,13 +4,16 @@ export default class Games extends Component {
   render() {
     const rowStyle = {
       padding: '10px 5px',
-      borderTop: '1px solid #888888',
+      borderTop: '1px solid #282828',
+      //borderTop: '1px solid #888888',
       cursor: 'pointer'
     }
 
     const teamStyle = (team, otherTeam) => {
+      const winner = parseInt(team.score) > parseInt(otherTeam.score)
       return {
-        fontWeight: (parseInt(team.score) > parseInt(otherTeam.score)) ? 'bold' : 'normal'
+        fontWeight: winner ? 'bold' : 'normal',
+        color: winner ? '#ffffff' : 'inherit'
       }
     }
 

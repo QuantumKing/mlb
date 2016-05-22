@@ -54,7 +54,7 @@ class DetailView extends Component {
 
     const isLoading = isFetching || !isLoaded
 
-    const backStyle = {cursor: 'pointer', marginBottom: '5px'}
+    const backStyle = {cursor: 'pointer', marginBottom: '5px', color: '#ffffff'}
 
     return (
       <div style={{padding: '10px', display: 'inline-block', textAlign: 'left'}}>
