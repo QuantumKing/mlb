@@ -50,6 +50,6 @@ export function fetchBoxScore(game) {
         if (getState().details.boxScore.isFetching) {
           dispatch(catchError(error))
         }
-      });
+      })
   }
 }
